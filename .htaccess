@@ -1,0 +1,51 @@
+# BEGIN WordPress
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase /
+RewriteRule ^index\.php$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /index.php [L]
+</IfModule>
+
+# END WordPress
+
+# Disable XML-RPC - Security > Settings > WordPress Tweaks > XML-RPC
+<files xmlrpc.php>
+  <IfModule mod_authz_core.c>
+    Require all denied
+  </IfModule>
+  <IfModule !mod_authz_core.c>
+    Order allow,deny
+    Deny from all
+  </IfModule>
+</files>
+
+<IfModule mod_rewrite.c>
+RewriteCond %{REQUEST_URI} !^/wp/wp-admin [NC]
+RewriteCond %{QUERY_STRING} author=\d
+RewriteRule ^ /? [L,R=301]
+
+RewriteCond %{REQUEST_URI} ^/+author/\w [NC]
+RewriteRule ^ /? [L,R=301]
+</IfModule>
+
+<files .env>
+order allow,deny
+deny from all
+</files>
+
+<files wp-config.php>
+order allow,deny
+deny from all
+</files>
+
+<files wp-tests-config.php>
+order allow,deny
+deny from all
+</files>
+
+<files .htaccess>
+order allow,deny
+deny from all
+</files>
