@@ -1,12 +1,10 @@
 .DS_Store
 vendor
 wp
-dist
 bower_components
 node_modules
 src/plugins/*
-!src/plugins/advanced-custom-fields-pro
-!src/plugins/s1t2-*
+!src/plugins/__-*
 src/themes/*/style.css
 src/themes/*/scripts
 src/themes/*/images
