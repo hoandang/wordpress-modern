@@ -114,11 +114,11 @@ function watch()
     optimiseImages(triggerOther(file)).on('end', doneMessage);
   });
 
-  //watch phpunit test
-  gulp.watch( 'tests/tests/*.php' ).on('change', (file) => {
-    console.log('Testing ' + basename(file.path));
-    execute(file.path, 'vendor/bin/./phpunit', 'Test Failed', 'OK');
-  });
+  // Uncomment this if you would like watch tests
+  // gulp.watch( 'tests/tests/*.php' ).on('change', (file) => {
+  //   console.log('Testing ' + basename(file.path));
+  //   execute(file.path, 'vendor/bin/./phpunit', 'Test Failed', 'OK');
+  // });
 
   //watch php lint
   gulp.watch(['src/plugins/**/*.php', 'src/themes/__/**/*.php']).on('change', (file) => {

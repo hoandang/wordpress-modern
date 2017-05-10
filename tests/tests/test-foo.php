@@ -1,7 +1,5 @@
 <?php
 
-use App\Models\Block;
-
 class TestFoo extends WP_UnitTestCase
 {
 	function setUp()

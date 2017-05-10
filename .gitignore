@@ -1,7 +1,6 @@
 .DS_Store
 vendor
 wp
-bower_components
 node_modules
 src/plugins/*
 !src/plugins/__-*
@@ -13,7 +12,6 @@ src/themes/*/images
 .settings/
 .env
 .swp
-.phpcomplete_extended/upgrade
 src/upgrade
 *.pem
 *.ppk

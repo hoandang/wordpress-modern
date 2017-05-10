@@ -5,11 +5,9 @@ function _manually_load_environment() {
   // Add your theme
 	switch_theme('s1t2');
 
-	$plugins_to_active = array(
-		's1t2-helper/index.php',
-		's1t2-sql-helper/index.php',
-		'timber-library/timber.php',
-	);
+  $plugins_to_active = [
+    'timber-library/timber.php',
+  ];
 
 	update_option( 'active_plugins', $plugins_to_active );
 }
