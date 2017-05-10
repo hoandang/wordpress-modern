@@ -8,5 +8,5 @@ composer:
 up:
 	docker-compose up
 
-phpunit:
-	docker exec -it ${CONTAINER_ID} vendor/bin/phpunit ${FILE}
+test:
+	docker exec ${CONTAINER_ID} vendor/bin/phpunit ${FILE}

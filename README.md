@@ -36,4 +36,4 @@ This will make wordpress development less suck. The theme is loaded with vue
 - Put helpers and utilized functions in `helpers.php`. The benefit of using global functions is that we can use those in twig view and closures easily.
 
 ### TESTING
-- Write tests in tests/tests folder then run dexec <http_server_container_id> /var/www/html/vendor/bin/phpunit
+- Write tests in tests/tests folder then run `make test CONTAINER_ID=<container_id>`
