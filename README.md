@@ -1,4 +1,7 @@
-# PLEASE INSTALL DOCKER FOR LOCAL DEV
+# Modern wordpress structure
+This will make wordpress development less suck. The theme is loaded with vuejs, vuex and lodash.
+
+## INSTALL DOCKER FOR LOCAL DEV
 - `brew cask virtualbox`
 - `brew install docker docker-machine docker-compose docker-swarm`
 - `docker-machine start`
@@ -17,8 +20,6 @@
 ## FRONT END STRUCTURE (PLEASE USE ES6 SYNTAX)
 - all sass files in `src/themes/__/resources/styles`. 
 - all scripts in `src/themes/__/resources/scripts`.
-- for simple component, create a single js file and wrap the targeted DOM inside Vue. See `src/themes/__/resources/scripts/get-share-count.js` for quick ref.
-- for complex component, create a folder with the name of the component (all files must be .vue). See `src/themes/__/resources/scripts/home/` for quick ref.
 
 ## BACKEND STRUCTURE
 - `functions.php` is full. DOT NOT ADD ANYTHING INSIDE.

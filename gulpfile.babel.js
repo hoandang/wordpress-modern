@@ -23,12 +23,12 @@ import {env} from 'process';
 import {argv} from 'yargs';
 const browserSync = require('browser-sync').create();
 
+const themeDir = 'src/themes/__';
+
 // ALL PLUGIN'S PATHS GO HERE
 const targets = [
 
-  'src/themes/__',
-
-  'src/plugins/__-sample'
+  'src/themes/__'
 
 ].map(target => `${__dirname}/${target}`);
 
@@ -37,6 +37,8 @@ const targetStyles = targets.map(target => `${target}/resources/styles/**/*`);
 const targetImages = targets.map(target => `${target}/resources/images/**/*`);
 
 gulp.task('watch', watch);
+
+gulp.task('buildVendor', buildVendor);
 
 gulp.task('build', build);
 
@@ -53,6 +55,7 @@ gulp.task('default', ['serve']);
 // BUILD
 function build()
 {
+  buildVendor();
   targets.forEach((target) => {
 
     if (isTargetFromTheme(target)) {
@@ -245,7 +248,7 @@ function bundleBrowserify(target)
   const path = target.path;
 
   const entry = target.name == '__'
-    ? `${path}/resources/${getVueEntryDir(target)}/index.js`
+    ? `${themeDir}/resources/scripts/index.js`
     : `${path}/resources/scripts/index.js`;
 
   const destination = target.name == '__'
@@ -263,7 +266,6 @@ function bundleBrowserify(target)
     .pipe(minifyJs())
     .pipe(notifyBuild())
     .pipe(gulp.dest(destination))
-    .pipe(browserSync.reload({stream: true}));
 }
 
 function getVueEntryIndex(path)
@@ -312,4 +314,16 @@ function optimiseImages(target)
   return gulp.src(`${path}/resources/images/**/*`)
              .pipe(minifyImages())
              .pipe(gulp.dest(`${path}/images/`));
+}
+
+function buildVendor()
+{
+  const vendors = [
+    'node_modules/vue/dist/vue.min.js'
+  ];
+
+  return gulp.src(vendors) 
+             .pipe(plumber({errorHandler: notify.onError("Error: <%= error.message %>")}))
+             .pipe(concat('vendor.js'))
+             .pipe(gulp.dest(`${themeDir}/vendor`));
 }
