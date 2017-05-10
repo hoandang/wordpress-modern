@@ -1,5 +1,5 @@
 # Modern wordpress structure
-This will make wordpress development less suck. The theme is loaded with vuejs, vuex and lodash.
+This will make wordpress development less suck. The theme is loaded with vue
 
 ## INSTALL DOCKER FOR LOCAL DEV
 - `brew cask virtualbox`
