@@ -5,4 +5,6 @@ add_action('after_setup_theme', function() {
   add_theme_support('post-thumbnails');
 
   require_once('helpers.php');
+  require_once('ajax.php');
+  require_once('scripts.php');
 });

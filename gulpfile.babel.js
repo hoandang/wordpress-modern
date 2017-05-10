@@ -1,45 +1,34 @@
-/**************************************************
-** If you read all the crap below, you're awesome
-**         ______ ___ _______ ______
-**        / _____|___|_______|_____ \
-**       ( (____    _    _     ____) )
-**        \____ \  | |  | |   / ____/
-**        _____) )_| |_ | |  | (_____
-**       (______/(_____)|_|  |_______)
-**             https://s1t2.com.au
-**************************************************/
-
+require('dotenv').config();
 import gulp from 'gulp';
-import _ from 'lodash';
 import browserify from 'browserify';
 import vueify from 'vueify';
+import babelify from 'babelify';
 import plumber from 'gulp-plumber';
 import prefixer from 'gulp-autoprefixer';
 import sass from 'gulp-sass';
 import uglify from 'gulp-uglify';
 import babel from 'gulp-babel';
 import minify from 'gulp-cssnano';
-import filter from 'gulp-filter';
-import merge from 'merge-stream';
 import source from 'vinyl-source-stream';
 import buffer from 'vinyl-buffer';
-import sourcemaps from 'gulp-sourcemaps';
 import concat from 'gulp-concat';
 import notify from 'gulp-notify';
 import imagemin from 'gulp-imagemin';
-import pngquant from 'imagemin-pngquant';
-import jpegtran from 'imagemin-jpegtran';
 import gutil from 'gulp-util';
 import notifier from 'node-notifier';
 import {spawn} from 'child_process';
 import {basename, extname, dirname} from 'path';
 import {ls} from 'shelljs';
 import {env} from 'process';
+import {argv} from 'yargs';
+const browserSync = require('browser-sync').create();
 
 // ALL PLUGIN'S PATHS GO HERE
 const targets = [
 
-  'src/themes/s1t2',
+  'src/themes/__',
+
+  'src/plugins/__-sample'
 
 ].map(target => `${__dirname}/${target}`);
 
@@ -51,7 +40,15 @@ gulp.task('watch', watch);
 
 gulp.task('build', build);
 
-gulp.task('default', ['watch']);
+gulp.task('serve', () => {
+  browserSync.init({
+    proxy: env.WP_HOME
+  });
+
+  watch();
+});
+
+gulp.task('default', ['serve']);
 
 // BUILD
 function build()
@@ -64,7 +61,7 @@ function build()
       files.forEach((filePath) => {
 
         bundleBrowserify({ 
-          name : 's1t2', 
+          name : '__', 
           type: extname(filePath) == '.js' ? 'js' : 'vue',
           path : target, 
           fullPath: filePath,
@@ -74,11 +71,16 @@ function build()
       });
     }
     else {
-      bundleBrowserify({ name : 'plugin', type: 'vue', path : target, filename: 'app.vue' });
+      if (argv.plugins) {
+        bundleBrowserify({ name : 'plugin', type: 'vue', path : target, filename: 'app.vue' });
+      }
     }
 
     compileSass(triggerOther({path: target}));
-    optimiseImages(triggerOther({path: target}));
+
+    if (argv.image) {
+      optimiseImages(triggerOther({path: target}));
+    }
 
   });
 }
@@ -116,7 +118,7 @@ function watch()
   });
 
   //watch php lint
-  gulp.watch(['src/plugins/**/*.php', 'src/themes/s1t2/**/*.php']).on('change', (file) => {
+  gulp.watch(['src/plugins/**/*.php', 'src/themes/__/**/*.php']).on('change', (file) => {
     console.log('Liniting ' + basename(file.path));
     execute(file.path, 'vendor/bin/./parallel-lint', 'Lint Failed', 'No syntax error found');
   });
@@ -155,7 +157,7 @@ function triggerJs(file)
 
   if (isTargetFromTheme(path)) {
     return {
-      name : 's1t2', 
+      name : '__', 
       type: extname(path) == '.js' ? 'js' : 'vue',
       path : path.substr(0, path.indexOf('resources')), 
       fullPath: path,
@@ -203,14 +205,19 @@ function handleErrors()
   this.emit('end');
 }
 
+function notifyBuild()
+{
+  return isProduction() ? gutil.noop() : notify('Build Complete');
+}
+
 function minifyJs()
 {
-  return env.APP_ENV == 'production' && env.APP_ENV ? uglify() : gutil.noop();
+  return isProduction() ? uglify() : gutil.noop();
 }
 
 function minifyCss()
 {
-  return env.APP_ENV == 'production' && env.APP_ENV 
+  return isProduction()
     ? minify({ convertValues: { length: false }, discardComments: { removeAll: true } })
     : gutil.noop();
 }
@@ -218,58 +225,64 @@ function minifyCss()
 function minifyImages()
 {
 
-  return env.APP_ENV == 'production' && env.APP_ENV
-    ? imagemin({ progressive : true, use : [
-          pngquant({ quality: '65-80', speed: 4 }),
-          jpegtran({ progressive: true })
-        ]
-      })
+  return isProduction()
+    ? imagemin([
+      imagemin.gifsicle({interlaced: true}),
+      imagemin.jpegtran({progressive: true}),
+      imagemin.optipng({optimizationLevel: 5}),
+      imagemin.svgo({plugins: [{removeViewBox: true}]})
+    ])
     : gutil.noop();
+}
+
+function isProduction()
+{
+  return env.WP_ENV == 'production';
 }
 
 function bundleBrowserify(target)
 {
   const path = target.path;
 
-  if (target.name == 's1t2' && target.type == 'js') {
-    return gulp.src(`${path}/resources/scripts/${target.filename}`)
-               .pipe(plumber({errorHandler: notify.onError("Error: <%= error.message %>")}))
-               .pipe(babel())
-               .pipe(concat(target.filename))
-               .pipe(minifyJs())
-               .pipe(gulp.dest(`${path}/vendor`));
-  }
+  const entry = target.name == '__'
+    ? `${path}/resources/${getVueEntryDir(target)}/index.js`
+    : `${path}/resources/scripts/index.js`;
 
-  const entry = target.name == 's1t2'
-    ? target.fullPath
-    : `${path}/resources/scripts/index.vue`;
-
-  const destination = target.name == 's1t2'
-    ? `${path}/vendor/` + getVueEntryDir(target.fullPath)
+  const destination = target.name == '__'
+    ? `${path}/vendor/` + getVueEntryDir(target)
     : `${path}/vendor`;
 
   return browserify({
     entries: entry,
     debug: true,
-    transform: [vueify]
+    transform: [[babelify], [vueify]]
   }).bundle().on('error', handleErrors)
     .pipe(source('index.js'))
     .pipe(buffer())
     .pipe(babel({presets: ['es2015']}))
     .pipe(minifyJs())
-    .pipe(gulp.dest(destination));
+    .pipe(notifyBuild())
+    .pipe(gulp.dest(destination))
+    .pipe(browserSync.reload({stream: true}));
 }
 
 function getVueEntryIndex(path)
 {
   if (path.includes('index.vue')) return path;
-
   return path.substr(0, path.indexOf('components')) + 'index.vue';
 }
 
-function getVueEntryDir(path)
+function getVueEntryDir(target)
 {
-  return dirname(path).match(/([^\/]*)\/*$/)[1];
+  const urlParts = dirname(target.fullPath).split('/');
+  const length = urlParts.length;
+
+  let entryDir = urlParts[length - 1];
+  if (entryDir == 'components') {
+    entryDir = urlParts[length - 2];
+  }
+
+  return entryDir;
 }
 
 function compileSass(target)
@@ -278,7 +291,7 @@ function compileSass(target)
 
   let [filename, dest] = ['index.css', `${path}/vendor`];
 
-  if (target.name == 's1t2') {
+  if (target.name == '__') {
     [filename, dest] = ['style.css', path];
   }
 
@@ -288,7 +301,8 @@ function compileSass(target)
              .pipe(prefixer({ browsers: ['last 2 version'] }))
              .pipe(concat(filename))
              .pipe(minifyCss())
-             .pipe(gulp.dest(dest));
+             .pipe(gulp.dest(dest))
+             .pipe(browserSync.reload({stream: true}));
 }
 
 function optimiseImages(target)

@@ -35,7 +35,7 @@ class Settings
     }
   }
 
-  private adminSetup()
+  private function adminSetup()
   {
     // Remove "Thank you for creating with WordPress" footer text
     add_filter('admin_footer_text', '__return_empty_string', 11);
@@ -50,10 +50,6 @@ class Settings
     add_action('admin_footer-options-general.php', [$this, 'customiseGeneralSettings']);
 
     add_filter('theme_page_templates', [$this, 'removeUnusedPageTemplates']);
-
-    add_action('admin_menu', [$this, 'removeMenuItem']);
-
-    add_action('admin_enqueue_scripts', [$this, 'enqueueAdminScripts']);
 
     add_action('after_setup_theme', [$this, 'regsiterNav']);
 
@@ -194,31 +190,6 @@ class Settings
   public function addExcerptToPage()
   {
     add_post_type_support('page', 'excerpt');
-  }
-
-  public function removeMenuItem()
-  {
-    if (isDev()) {
-      remove_menu_page('themes.php');
-      remove_menu_page('tools.php');
-
-      // remove custom fields
-      remove_menu_page('edit.php?post_type=acf-field-group');
-
-      // remove update core
-      remove_submenu_page('index.php', 'update-core.php');
-
-      // remove plugins
-      remove_menu_page('plugins.php');
-
-      // remove custom post type UI
-      remove_menu_page('cptui_main_menu');
-    }
-  }
-
-  public function enqueueAdminScripts()
-  {
-    wp_enqueue_script('vuejs', getenv('VUEJS_CDN'), '', '', true);
   }
 }
 
