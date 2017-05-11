@@ -9,8 +9,19 @@ services:
       - db_data:/var/lib/mysql
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: wp_seed
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+
+  mysqltest:
+    image: mysql:5.6
+    ports: 
+      - "${MYSQL_TEST_PORT}:3306"
+    volumes:
+      - db_data_test:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${TEST_DB_PASSWORD}
+      MYSQL_DATABASE: ${TEST_DB_NAME}
 
   httpd: 
     build:
@@ -28,3 +39,4 @@ services:
       
 volumes:
   db_data:
+  db_data_test:

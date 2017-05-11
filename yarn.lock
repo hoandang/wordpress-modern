@@ -5001,6 +5001,14 @@ shelljs@^0.7.0:
     interpret "^1.0.0"
     rechoir "^0.6.2"
 
+shelljs@^0.7.7:
+  version "0.7.7"
+  resolved "https://registry.yarnpkg.com/shelljs/-/shelljs-0.7.7.tgz#b2f5c77ef97148f4b4f6e22682e10bba8667cff1"
+  dependencies:
+    glob "^7.0.0"
+    interpret "^1.0.0"
+    rechoir "^0.6.2"
+
 shellwords@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/shellwords/-/shellwords-0.1.0.tgz#66afd47b6a12932d9071cbfd98a52e785cd0ba14"
@@ -5736,10 +5744,6 @@ vue-hot-reload-api@^2.0.1:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/vue-hot-reload-api/-/vue-hot-reload-api-2.1.0.tgz#9ca58a6e0df9078554ce1708688b6578754d86de"
 
-vue-router@^2.5.2:
-  version "2.5.2"
-  resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-2.5.2.tgz#870db3b63ead0aab4cd0bac63a7b81341c593f56"
-
 vue-template-compiler@^2.0.0-alpha.8:
   version "2.2.6"
   resolved "https://registry.yarnpkg.com/vue-template-compiler/-/vue-template-compiler-2.2.6.tgz#2e2928daf0cd0feca9dfc35a9729adeae173ec68"
@@ -5773,10 +5777,6 @@ vueify@^9.4.1:
     vue-hot-reload-api "^2.0.1"
     vue-template-compiler "^2.0.0-alpha.8"
     vue-template-es2015-compiler "^1.2.2"
-
-vuex@^2.3.1:
-  version "2.3.1"
-  resolved "https://registry.yarnpkg.com/vuex/-/vuex-2.3.1.tgz#cde8e997c1f9957719bc7dea154f9aa691d981a6"
 
 ware@^1.2.0:
   version "1.3.0"

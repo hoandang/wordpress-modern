@@ -5,21 +5,21 @@ This will make wordpress development less suck. The theme is loaded with vue
 - Add nightwatch for e2e testing
 - Make a realworld example based on this structure
 
-### INSTALL DOCKER FOR LOCAL DEV
+### SETUP (for mac only)
 - `brew cask virtualbox`
 - `brew install docker docker-machine docker-compose docker-swarm`
 - `docker-machine start`
 - `docker-machine ip` (retrieve IP for local dev)
-
-### GETTING STARTED
 - `make up` to spin up the server
-- `make composer install` to install all dependencies
-- `npm install` to install all build-tool dependencies
+- `make composer COMMAND=install` to install all dependencies
+- `yarn install` to install all build-tool dependencies
 - `npm run build` to build all assets
 - `npm run watch` to watch build
 - `cp .env.sample .env`. Edit `.env`
 - `npm run build -- --plugins` to build including plugins 
 - `npm run build -- --images` to build including images 
+- Enable plugins
+- Activate __ theme
 
 ### FRONT END STRUCTURE (PLEASE USE ES6 SYNTAX)
 - all sass files in `src/themes/__/resources/styles`. 
@@ -36,4 +36,4 @@ This will make wordpress development less suck. The theme is loaded with vue
 - Put helpers and utilized functions in `helpers.php`. The benefit of using global functions is that we can use those in twig view and closures easily.
 
 ### TESTING
-- Write tests in tests/tests folder then run `make test CONTAINER_ID=<container_id>`
+- Write tests in tests/tests folder then run `make test CONTAINER_ID=<httpd_container_id>`
