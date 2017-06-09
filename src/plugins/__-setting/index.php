@@ -1,6 +1,6 @@
 <?php
 /*
-Plugin Name: Settings
+Plugin Name: General Settings
 Author: Hoan Dang
  */
 
@@ -8,11 +8,11 @@ if (!defined('ABSPATH')) {
   exit;
 }
 
-add_action('plugins_loaded', ['Settings', 'getInstance']);
+add_action('plugins_loaded', ['Setting', 'getInstance']);
 
-if (!class_exists('Settings')):
+if (!class_exists('Setting')):
 
-class Settings
+class Setting
 {
   private static $instance = null;
 

@@ -38,13 +38,17 @@ const targetImages = targets.map(target => `${target}/resources/images/**/*`);
 
 gulp.task('watch', watch);
 
-gulp.task('buildVendor', buildVendor);
+gulp.task('buildVendorJs', buildVendorJs);
+gulp.task('buildVendorCss', buildVendorCss);
 
 gulp.task('build', build);
 
+gulp.task('dist', dist);
+
 gulp.task('serve', () => {
   browserSync.init({
-    proxy: env.WP_HOME
+    proxy: env.WP_HOME,
+    open: false
   });
 
   watch();
@@ -55,7 +59,6 @@ gulp.task('default', ['serve']);
 // BUILD
 function build()
 {
-  buildVendor();
   targets.forEach((target) => {
 
     if (isTargetFromTheme(target)) {
@@ -63,7 +66,7 @@ function build()
 
       files.forEach((filePath) => {
 
-        bundleBrowserify({ 
+        bundleBrowserify({
           name : '__', 
           type: extname(filePath) == '.js' ? 'js' : 'vue',
           path : target, 
@@ -86,6 +89,15 @@ function build()
     }
 
   });
+}
+
+function dist()
+{
+  return gulp.src(`${themeDir}/vendor/**/*.js`)
+             .pipe(plumber({errorHandler: notify.onError("Error: <%= error.message %>")}))
+             .pipe(concat('dist.min.js'))
+             .pipe(minifyJs())
+             .pipe(gulp.dest(`${themeDir}/dist`));
 }
 
 function isTargetFromTheme(target)
@@ -113,12 +125,6 @@ function watch()
     console.log('Optimizing ' + basename(file.path));
     optimiseImages(triggerOther(file)).on('end', doneMessage);
   });
-
-  // Uncomment this if you would like watch tests
-  // gulp.watch( 'tests/tests/*.php' ).on('change', (file) => {
-  //   console.log('Testing ' + basename(file.path));
-  //   execute(file.path, 'vendor/bin/./phpunit', 'Test Failed', 'OK');
-  // });
 
   //watch php lint
   gulp.watch(['src/plugins/**/*.php', 'src/themes/__/**/*.php']).on('change', (file) => {
@@ -247,9 +253,18 @@ function bundleBrowserify(target)
 {
   const path = target.path;
 
+  if (target.name == '__' && target.type == 'js') {
+    return gulp.src(`${path}/resources/scripts/${target.filename}`)
+               .pipe(plumber({errorHandler: notify.onError("Error: <%= error.message %>")}))
+               .pipe(babel())
+               .pipe(concat(target.filename))
+               .pipe(minifyJs())
+               .pipe(gulp.dest(`${path}/vendor`));
+  }
+
   const entry = target.name == '__'
-    ? `${themeDir}/resources/scripts/index.js`
-    : `${path}/resources/scripts/index.js`;
+    ? `${path}/resources/scripts/${getVueEntryDir(target)}/index.vue`
+    : `${path}/resources/scripts/index.vue`;
 
   const destination = target.name == '__'
     ? `${path}/vendor/` + getVueEntryDir(target)
@@ -258,14 +273,14 @@ function bundleBrowserify(target)
   return browserify({
     entries: entry,
     debug: true,
-    transform: [[babelify], [vueify]]
+    transform: [vueify]
   }).bundle().on('error', handleErrors)
     .pipe(source('index.js'))
     .pipe(buffer())
     .pipe(babel({presets: ['es2015']}))
     .pipe(minifyJs())
     .pipe(notifyBuild())
-    .pipe(gulp.dest(destination))
+    .pipe(gulp.dest(destination));
 }
 
 function getVueEntryIndex(path)
@@ -316,7 +331,7 @@ function optimiseImages(target)
              .pipe(gulp.dest(`${path}/images/`));
 }
 
-function buildVendor()
+function buildVendorJs()
 {
   const vendors = [
     'node_modules/vue/dist/vue.min.js'
@@ -325,5 +340,16 @@ function buildVendor()
   return gulp.src(vendors) 
              .pipe(plumber({errorHandler: notify.onError("Error: <%= error.message %>")}))
              .pipe(concat('vendor.js'))
-             .pipe(gulp.dest(`${themeDir}/vendor`));
+             .pipe(gulp.dest(`${themeDir}/dist`));
+}
+
+function buildVendorCss() 
+{
+  const assets = [
+  ];
+
+  return gulp.src(assets) 
+             .pipe(plumber({errorHandler: notify.onError("Error: <%= error.message %>")}))
+             .pipe(concat('vendor.css'))
+             .pipe(gulp.dest(`${themeDir}/dist`));
 }

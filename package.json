@@ -1,9 +1,10 @@
 {
   "private": true,
   "scripts": {
-    "watch": "gulp",
+    "serve": "gulp",
     "build": "gulp build",
-    "vendorise": "gulp buildVendor"
+    "dist": "gulp build && gulp dist && gulp buildVendorJs && gulp buildVendorCss",
+    "vendor": "gulp buildVendorJs && gulp buildVendorCss"
   },
   "devDependencies": {
     "babel-core": "^6.23.1",

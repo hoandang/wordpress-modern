@@ -1,9 +1,11 @@
-up:
-	docker-compose up
+composer-install:
+	docker exec ${CONTAINER_ID} composer install
+
+composer-update:
+	docker exec ${CONTAINER_ID} composer update
 
 test:
 	docker exec ${CONTAINER_ID} vendor/bin/phpunit ${FILE}
 
-composer:
-	docker run --rm --interactive --tty --volume $(PWD):/app composer ${COMMAND}
-
+up:
+	docker-compose up -d

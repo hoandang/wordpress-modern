@@ -1,14 +1,28 @@
-FROM php:7.1-apache
+FROM php:7.0-apache
 
 RUN apt-get update && apt-get install -y \
+        vim \
         libfreetype6-dev \
         libjpeg62-turbo-dev \
         libmcrypt-dev \
         libpng12-dev \
         libicu-dev \
+        zlib1g-dev \
         libxml2-dev \
+        libzip-dev \
+        curl \
+        libssl-dev \
+        libpcre3-dev \
+        libcurl3 \
+        libcurl3-dev \
+        libpspell-dev \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
-    && docker-php-ext-install -j$(nproc) gd iconv mbstring mcrypt mysqli pdo soap xml
+    && docker-php-ext-install -j$(nproc) gd iconv mbstring mcrypt mysqli pdo pdo_mysql soap xml zip curl dom gettext posix pspell exif
+
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin/ --filename=composer
+RUN usermod -u 1000 www-data
 
 RUN a2enmod rewrite
-RUN a2enmod ssl
+
+COPY etc/apache2/hosts.conf /etc/apache2/sites-enabled/000-default.conf
+COPY etc/apache2/php.ini /usr/local/etc/php/

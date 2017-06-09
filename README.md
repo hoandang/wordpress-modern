@@ -11,10 +11,10 @@ This will make wordpress development less suck. The theme is loaded with vue
 - `docker-machine start`
 - `docker-machine ip` (retrieve IP for local dev)
 - `make up` to spin up the server
-- `make composer COMMAND=install` to install all dependencies
+- `make composer-install CONTAINER_ID={httpd_container_id}` to install all dependencies
 - `yarn install` to install all build-tool dependencies
 - `npm run build` to build all assets
-- `npm run watch` to watch build
+- `npm run serve` to watch build
 - `cp .env.sample .env`. Edit `.env`
 - `npm run build -- --plugins` to build including plugins 
 - `npm run build -- --images` to build including images 
@@ -36,4 +36,4 @@ This will make wordpress development less suck. The theme is loaded with vue
 - Put helpers and utilized functions in `helpers.php`. The benefit of using global functions is that we can use those in twig view and closures easily.
 
 ### TESTING
-- Write tests in tests/tests folder then run `make test CONTAINER_ID=<httpd_container_id>`
+- Write tests in tests/tests folder then run `make test CONTAINER_ID={httpd_container_id}`

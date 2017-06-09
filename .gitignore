@@ -7,6 +7,7 @@ src/plugins/*
 src/themes/*/style.css
 src/themes/*/scripts
 src/themes/*/images
+src/themes/__/dist/
 .buildpath
 .project
 .settings/
