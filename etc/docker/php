@@ -1,4 +1,4 @@
-FROM php:7.0-apache
+FROM php:7.1-fpm
 
 RUN apt-get update && apt-get install -y \
         vim \
@@ -22,7 +22,4 @@ RUN apt-get update && apt-get install -y \
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin/ --filename=composer
 RUN usermod -u 1000 www-data
 
-RUN a2enmod rewrite
-
-COPY etc/apache2/hosts.conf /etc/apache2/sites-enabled/000-default.conf
-COPY etc/apache2/php.ini /usr/local/etc/php/
+COPY etc/conf/php.ini /usr/local/etc/php/

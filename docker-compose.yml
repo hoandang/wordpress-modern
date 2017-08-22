@@ -1,9 +1,9 @@
 version: '2'
 
-services: 
+services:
   mysql:
     image: mysql:5.6
-    ports: 
+    ports:
       - "${MYSQL_PORT}:3306"
     volumes:
       - db_data:/var/lib/mysql
@@ -23,19 +23,30 @@ services:
       MYSQL_ROOT_PASSWORD: ${TEST_DB_PASSWORD}
       MYSQL_DATABASE: ${TEST_DB_NAME}
 
-  httpd: 
+  php:
     build:
       context: .
-      dockerfile: /etc/docker/server
+      dockerfile: /etc/docker/php
+    restart: always
     volumes:
-      - ./:/var/www/html
-      - ./etc/apache2/hosts.conf:/etc/apache2/sites-enabled/000-default.conf
+      - ./:/www
+
+  web:
+    build:
+      context: .
+      dockerfile: /etc/docker/nginx
+    volumes:
+      - ./:/www
+      - ./etc/conf/hosts.conf:/etc/nginx/conf.d/site.conf
+      - ./etc/ssl/server.crt:/etc/nginx/ssl/server.crt
+      - ./etc/ssl/server.key:/etc/nginx/ssl/server.key
     ports:
       - "${HTTP_PORT}:80"
+      - "${HTTPS_PORT}:443"
     restart: always
     links:
+      - php
       - mysql
-      
+
 volumes:
   db_data:
-  db_data_test:
