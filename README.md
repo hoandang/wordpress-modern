@@ -10,12 +10,12 @@ This will make wordpress development less suck. The theme is loaded with vue
 - `brew install docker docker-machine docker-compose docker-swarm`
 - `docker-machine start`
 - `docker-machine ip` (retrieve IP for local dev)
+- `cp .env.sample .env`. Edit `.env`
 - `make up` to spin up the server
 - `make composer-install CONTAINER_ID={httpd_container_id}` to install all dependencies
 - `yarn install` to install all build-tool dependencies
 - `npm run build` to build all assets
 - `npm run serve` to watch build
-- `cp .env.sample .env`. Edit `.env`
 - `npm run build -- --plugins` to build including plugins 
 - `npm run build -- --images` to build including images 
 - Enable plugins
