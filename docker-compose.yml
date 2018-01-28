@@ -1,52 +1,31 @@
-version: '2'
+version: '3'
 
-services:
-  mysql:
-    image: mysql:5.6
-    ports:
-      - "${MYSQL_PORT}:3306"
+services: 
+  db:
+    container_name: ${DB_CONTAINER_NAME}
+    image: mysql:5.7
+    ports: 
+      - "${DB_PORT}:3306"
     volumes:
       - db_data:/var/lib/mysql
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
       MYSQL_DATABASE: ${DB_NAME}
-
-  mysqltest:
-    image: mysql:5.6
-    ports: 
-      - "${MYSQL_TEST_PORT}:3306"
-    volumes:
-      - db_data_test:/var/lib/mysql
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: ${TEST_DB_PASSWORD}
-      MYSQL_DATABASE: ${TEST_DB_NAME}
-
-  php:
-    build:
-      context: .
-      dockerfile: /etc/docker/php
-    restart: always
-    volumes:
-      - ./:/www
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
 
   web:
-    build:
-      context: .
-      dockerfile: /etc/docker/nginx
-    volumes:
-      - ./:/www
-      - ./etc/conf/hosts.conf:/etc/nginx/conf.d/site.conf
-      - ./etc/ssl/server.crt:/etc/nginx/ssl/server.crt
-      - ./etc/ssl/server.key:/etc/nginx/ssl/server.key
-    ports:
-      - "${HTTP_PORT}:80"
-      - "${HTTPS_PORT}:443"
+    container_name: ${WEB_CONTAINER_NAME}
+    image: s1t2dev/php:7.1
     restart: always
-    links:
-      - php
-      - mysql
-
+    depends_on:
+      - db
+    volumes:
+      - ./:/var/www/html
+    ports:
+      - ${HTTP_PORT}:80
+      - ${HTTPS_PORT}:443
+      
 volumes:
   db_data:

@@ -1,11 +1,13 @@
+include .env
+
 composer-install:
-	docker exec ${CONTAINER_ID} composer install
+	docker exec ${WEB_CONTAINER_NAME} composer install
 
 composer-update:
-	docker exec ${CONTAINER_ID} composer update
+	docker exec ${WEB_CONTAINER_NAME} composer update
 
-test:
-	docker exec ${CONTAINER_ID} vendor/bin/phpunit ${FILE}
+composer-require:
+	docker exec ${WEB_CONTAINER_NAME} require ${PACKAGE}
 
 up:
 	docker-compose up --build -d

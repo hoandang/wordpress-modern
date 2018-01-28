@@ -6,14 +6,10 @@ This will make wordpress development less suck. The theme is loaded with vue
 - Make a realworld example based on this structure
 
 ### SETUP (for mac only)
-- `brew cask virtualbox`
-- `brew install docker docker-machine docker-compose docker-swarm`
-- `docker-machine start`
-- `docker-machine ip` (retrieve IP for local dev)
 - `cp .env.sample .env`. Edit `.env`
 - `make up` to spin up the server
-- `make composer-install CONTAINER_ID={httpd_container_id}` to install all dependencies
-- `yarn install` to install all build-tool dependencies
+- `make composer-install` to install all dependencies
+- `npm install` to install all build-tool dependencies
 - `npm run build` to build all assets
 - `npm run serve` to watch build
 - `npm run build -- --plugins` to build including plugins 
@@ -34,6 +30,3 @@ This will make wordpress development less suck. The theme is loaded with vue
 - External scripts in `scripts.php`. Try to use CDN. Including internal js files with care, only load them if the page needs them.
 - Create plugin if there is a need of using hook or filter.
 - Put helpers and utilized functions in `helpers.php`. The benefit of using global functions is that we can use those in twig view and closures easily.
-
-### TESTING
-- Write tests in tests/tests folder then run `make test CONTAINER_ID={httpd_container_id}`
