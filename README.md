@@ -13,7 +13,6 @@ This will make wordpress development less suck. The theme is loaded with vue
 - `npm run build` to build all assets
 - `npm run serve` to watch build
 - `npm run build -- --plugins` to build including plugins 
-- `npm run build -- --images` to build including images 
 - Enable plugins
 - Activate __ theme
 

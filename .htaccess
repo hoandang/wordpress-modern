@@ -1,3 +1,4 @@
+# BEGIN WordPress
 <IfModule mod_rewrite.c>
 RewriteEngine On
 RewriteBase /
@@ -5,12 +6,15 @@ RewriteRule ^index\.php$ - [L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule . /index.php [L]
-RedirectMatch 403 ^/vendor/?$
+RedirectMatch 403 ^/app/?$
 RedirectMatch 403 ^/wp/?$
+RedirectMatch 403 ^/config/?$
 RedirectMatch 403 ^/.git/?$
 </IfModule>
+# END WordPress
 
-<Files xmlrpc.php>
+# Disable XML-RPC - Security > Settings > WordPress Tweaks > XML-RPC
+<files xmlrpc.php>
   <IfModule mod_authz_core.c>
     Require all denied
   </IfModule>
@@ -18,53 +22,49 @@ RedirectMatch 403 ^/.git/?$
     Order allow,deny
     Deny from all
   </IfModule>
-</Files>
+</files>
 
-<Files .env*>
-  order allow,deny
-  deny from all
-</Files>
+<files .env>
+order allow,deny
+deny from all
+</files>
 
-<Files Makefile>
-  order allow,deny
-  deny from all
-</Files>
+<files .env.sample>
+order allow,deny
+deny from all
+</files>
 
-<Files README.md>
-  order allow,deny
-  deny from all
-</Files>
+<files wp-config.php>
+order allow,deny
+deny from all
+</files>
 
-<Files composer.*>
-  order allow,deny
-  deny from all
-</Files>
+<files .htaccess>
+order allow,deny
+deny from all
+</files>
 
-<Files docker-compose.yml>
-  order allow,deny
-  deny from all
-</Files>
+<files composer.json>
+order allow,deny
+deny from all
+</files>
 
-<Files wlwmanifest.xml>
-  order allow,deny
-  deny from all
-</Files>
+<files composer.lock>
+order allow,deny
+deny from all
+</files>
 
-<Files wp-config.php>
-  order allow,deny
-  deny from all
-</Files>
+<files docker-compose.yml>
+order allow,deny
+deny from all
+</files>
 
-<Files .htaccess>
-  order allow,deny
-  deny from all
-</Files>
+<files global.json>
+order allow,deny
+deny from all
+</files>
 
-<Files .gitignore>
-  order allow,deny
-  deny from all
-</Files>
-
-# BEGIN WordPress
-
-# END WordPress
+<files Makefile>
+order allow,deny
+deny from all
+</files>

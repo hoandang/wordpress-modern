@@ -6,7 +6,6 @@ src/plugins/*
 !src/plugins/__-*
 src/themes/*/style.css
 src/themes/*/scripts
-src/themes/*/images
 src/themes/__/dist/
 .buildpath
 .project

@@ -13,8 +13,8 @@ import source from 'vinyl-source-stream';
 import buffer from 'vinyl-buffer';
 import concat from 'gulp-concat';
 import notify from 'gulp-notify';
-import imagemin from 'gulp-imagemin';
-import gutil from 'gulp-util';
+import through2 from 'through2';
+import log from 'fancy-log';
 import notifier from 'node-notifier';
 import {spawn} from 'child_process';
 import {basename, extname, dirname} from 'path';
@@ -34,7 +34,6 @@ const targets = [
 
 const targetBundles = targets.map(target => `${target}/resources/scripts/**/*`);
 const targetStyles = targets.map(target => `${target}/resources/styles/**/*`);
-const targetImages = targets.map(target => `${target}/resources/images/**/*`);
 
 gulp.task('watch', watch);
 
@@ -83,11 +82,6 @@ function build()
     }
 
     compileSass(triggerOther({path: target}));
-
-    if (argv.image) {
-      optimiseImages(triggerOther({path: target}));
-    }
-
   });
 }
 
@@ -120,12 +114,6 @@ function watch()
     compileSass(triggerOther(file)).on('end', doneMessage);
   });
 
-  // watch images
-  gulp.watch(targetImages).on('change', (file) => {
-    console.log('Optimizing ' + basename(file.path));
-    optimiseImages(triggerOther(file)).on('end', doneMessage);
-  });
-
   //watch php lint
   gulp.watch(['src/plugins/**/*.php', 'src/themes/__/**/*.php']).on('change', (file) => {
     console.log('Liniting ' + basename(file.path));
@@ -148,7 +136,7 @@ function execute(file, command, message, cause)
 
   child.stdout.on('data', (data) => {
     stdout += data;
-    gutil.log(data);
+    log(data);
   });
 
   child.on('close', (code) => {
@@ -195,7 +183,7 @@ function phpunit(file)
 
   child.stdout.on('data', function (data) {
     stdout += data;
-    gutil.log(data);
+    log(data);
   });
 
   child.on('close', function(code) {
@@ -216,32 +204,19 @@ function handleErrors()
 
 function notifyBuild()
 {
-  return isProduction() ? gutil.noop() : notify('Build Complete');
+  return isProduction() ? through2.noop() : notify('Build Complete');
 }
 
 function minifyJs()
 {
-  return isProduction() ? uglify() : gutil.noop();
+  return isProduction() ? uglify() : through2.noop();
 }
 
 function minifyCss()
 {
   return isProduction()
     ? minify({ convertValues: { length: false }, discardComments: { removeAll: true } })
-    : gutil.noop();
-}
-
-function minifyImages()
-{
-
-  return isProduction()
-    ? imagemin([
-      imagemin.gifsicle({interlaced: true}),
-      imagemin.jpegtran({progressive: true}),
-      imagemin.optipng({optimizationLevel: 5}),
-      imagemin.svgo({plugins: [{removeViewBox: true}]})
-    ])
-    : gutil.noop();
+    : through2.noop();
 }
 
 function isProduction()
@@ -320,15 +295,6 @@ function compileSass(target)
              .pipe(minifyCss())
              .pipe(gulp.dest(dest))
              .pipe(browserSync.reload({stream: true}));
-}
-
-function optimiseImages(target)
-{
-  const path = target.path;
-
-  return gulp.src(`${path}/resources/images/**/*`)
-             .pipe(minifyImages())
-             .pipe(gulp.dest(`${path}/images/`));
 }
 
 function buildVendorJs()
