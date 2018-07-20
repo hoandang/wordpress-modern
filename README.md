@@ -9,10 +9,11 @@ This will make wordpress development less suck. The theme is loaded with vue
 - `cp .env.sample .env`. Edit `.env`
 - `make up` to spin up the server
 - `make composer-install` to install all dependencies
+- `make composer-update` to update all dependencies
+- `make composer-require PACKAGE=<package_name>` to install a specific package
 - `npm install` to install all build-tool dependencies
 - `npm run build` to build all assets
-- `npm run serve` to watch build
-- `npm run build -- --plugins` to build including plugins 
+- `npm run watch` to watch build
 - Enable plugins
 - Activate __ theme
 

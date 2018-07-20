@@ -1,9 +1,8 @@
 {
   "private": true,
   "scripts": {
-    "dev": "webpack",
-    "watch": "npm run dev -- --watch",
-    "prod": "NODE_ENV=production webpack"
+    "build": "webpack",
+    "watch": "npm run dev -- --watch"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
