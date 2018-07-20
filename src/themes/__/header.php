@@ -5,5 +5,5 @@
 </head>
 
 <body>
-  <div id="wrapper">
+  <div id="app">
     <?php Timber::render('Views/partials/header.twig'); ?>

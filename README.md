@@ -26,6 +26,6 @@ This will make wordpress development less suck. The theme is loaded with vue
 - Business logic in `Models/`.
 - Views in `Views/`.
 - Ajax calls in `ajax.php`.
-- External scripts in `scripts.php`. Try to use CDN. Including internal js files with care, only load them if the page needs them.
+- External scripts in `scripts.php`.
 - Create plugin if there is a need of using hook or filter.
 - Put helpers and utilized functions in `helpers.php`. The benefit of using global functions is that we can use those in twig view and closures easily.

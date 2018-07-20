@@ -1,16 +1,5 @@
 # BEGIN WordPress
-<IfModule mod_rewrite.c>
-RewriteEngine On
-RewriteBase /
-RewriteRule ^index\.php$ - [L]
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule . /index.php [L]
-RedirectMatch 403 ^/app/?$
-RedirectMatch 403 ^/wp/?$
-RedirectMatch 403 ^/config/?$
-RedirectMatch 403 ^/.git/?$
-</IfModule>
+
 # END WordPress
 
 # Disable XML-RPC - Security > Settings > WordPress Tweaks > XML-RPC
