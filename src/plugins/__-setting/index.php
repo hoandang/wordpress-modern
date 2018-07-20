@@ -121,6 +121,9 @@ class Setting
 
     remove_submenu_page('themes.php', 'nav-menus.php');
 
+    remove_post_type_support('post', 'comments');
+    remove_menu_page('edit-comments.php');
+
     // Add nav menu as top element
     $menu[31] = [__('Menus', 'theme-slug'), 'edit_theme_options', 'nav-menus.php', __('Menus', 'theme-slug'), 'menu-top menu-nav', 'menu-nav', 'dashicons-menu'];
   }
