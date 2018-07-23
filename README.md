@@ -2,7 +2,6 @@
 This will make wordpress development less suck. The theme is loaded with vue
 
 ## TODO
-- Add nightwatch for e2e testing
 - Make a realworld example based on this structure
 
 ### SETUP (for mac only)
