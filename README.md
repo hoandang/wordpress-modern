@@ -1,5 +1,9 @@
+# Prerequisites
+- Docker 17+
+- Node 8+
+
 # Modern wordpress structure
-This will make wordpress development less suck. The theme is loaded with vue
+This will make wordpress development less suck. Clone the repo, edit .env and make up, that's all you need to do. 
 
 ## TODO
 - Make a realworld example based on this structure
