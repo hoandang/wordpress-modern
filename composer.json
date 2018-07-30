@@ -29,7 +29,9 @@
     "wpackagist-plugin/custom-post-type-ui": "1.5.*",
     "wpackagist-plugin/timber-library": "1.2.*",
     "wpackagist-plugin/advanced-custom-fields": "4.4.*",
-    "roots/wp-password-bcrypt": "1.0.*"
+    "roots/wp-password-bcrypt": "1.0.*",
+    "wp-cli/wp-cli": "^1.5",
+    "larapack/dd": "^1.1"
   },
   "autoload": {
     "classmap": [],
