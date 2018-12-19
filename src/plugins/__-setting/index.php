@@ -56,6 +56,8 @@ class Setting
     add_action('admin_menu', [$this, 'adjustAdminMenu']);
 
     add_action('admin_init', [$this, 'styleNavMenuScreen']);
+
+    add_filter('use_block_editor_for_post', '__return_false');
   }
 
   private function publicSetup()
