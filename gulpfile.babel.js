@@ -178,7 +178,7 @@ function bundleBrowserify(target)
 function compileSass(target)
 {
   const path = target.path;
-  const [filename, dest] = ['index.css', `${path}/vendor`];
+  const [filename, dest] = ['style.css', path];
 
   return gulp.src(`${path}/resources/styles/index.scss`)
              .pipe(plumber({errorHandler: notify.onError("Error: <%= error.message %>")}))
