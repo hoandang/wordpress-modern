@@ -8,7 +8,7 @@ services:
       - ${DB_PORT}:3306
     volumes:
       - db_data:/var/lib/mysql
-    restart: always
+    restart: unless-stopped
     environment:
       MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
       MYSQL_DATABASE: ${DB_NAME}
@@ -17,8 +17,8 @@ services:
 
   web:
     container_name: ${WEB_CONTAINER_NAME}
-    image: s1t2dev/php:7.2
-    restart: always
+    image: s1t2dev/php:7.3
+    restart: unless-stopped
     depends_on:
       - db
     volumes:
