@@ -23,7 +23,7 @@
 
   "require": {
     "php": ">=7",
-    "wordpress": "5.1",
+    "wordpress/wordpress": "5.1",
     "fancyguy/webroot-installer": "1.1.*",
     "vlucas/phpdotenv": "2.4.*",
     "wpackagist-plugin/custom-post-type-ui": "1.5.*",
