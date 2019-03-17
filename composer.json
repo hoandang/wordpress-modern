@@ -9,10 +9,10 @@
       "package": {
         "name": "wordpress",
         "type": "webroot",
-        "version": "5.1",
+        "version": "5.1.1",
         "dist": {
           "type": "zip",
-          "url": "https://github.com/WordPress/WordPress/archive/5.1.zip"
+          "url": "https://github.com/WordPress/WordPress/archive/5.1.1.zip"
         },
         "require" : {
           "fancyguy/webroot-installer": "*"
@@ -23,15 +23,15 @@
 
   "require": {
     "php": ">=7",
-    "wordpress": "5.1",
-    "fancyguy/webroot-installer": "1.1.*",
-    "vlucas/phpdotenv": "2.4.*",
-    "wpackagist-plugin/custom-post-type-ui": "1.5.*",
-    "wpackagist-plugin/timber-library": "1.2.*",
-    "wpackagist-plugin/advanced-custom-fields": "4.4.*",
-    "roots/wp-password-bcrypt": "1.0.*",
-    "wp-cli/wp-cli": "^1.5",
-    "larapack/dd": "^1.1"
+    "wordpress": "5.1.1",
+    "fancyguy/webroot-installer": "*@stable",
+    "vlucas/phpdotenv": "*@stable",
+    "wpackagist-plugin/custom-post-type-ui": "*@stable",
+    "wpackagist-plugin/timber-library": "*@stable",
+    "wpackagist-plugin/advanced-custom-fields": "*@stable",
+    "roots/wp-password-bcrypt": "*@stable",
+    "wp-cli/wp-cli": "*@stable",
+    "larapack/dd": "*@stable"
   },
   "autoload": {
     "classmap": [],

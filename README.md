@@ -5,9 +5,6 @@
 # Modern wordpress structure
 This will make wordpress development less suck. Clone the repo, edit .env and make up, that's all you need to do. 
 
-## TODO
-- Make a realworld example based on this structure
-
 ### SETUP (for mac only)
 - `cp .env.sample .env`. Edit `.env`
 - `make up` to spin up the server
