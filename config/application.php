@@ -4,7 +4,7 @@ $root_dir = dirname(dirname(__FILE__));
 /**
  * Use Dotenv to set required environment variables and load .env file in root
  */
-$dotenv = new Dotenv\Dotenv($root_dir);
+$dotenv = Dotenv\Dotenv::create($root_dir);
 $dotenv->load();
 $dotenv->required(array('DB_NAME', 'DB_USER', 'DB_PASSWORD', 'WP_HOME', 'WP_SITEURL'));
 
