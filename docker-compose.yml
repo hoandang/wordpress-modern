@@ -17,7 +17,7 @@ services:
 
   web:
     container_name: ${WEB_CONTAINER_NAME}
-    image: s1t2dev/php:7.3
+    image: hoandang/php-apache:7.3
     restart: unless-stopped
     depends_on:
       - db
