@@ -1,5 +1,8 @@
 include .env
 
+composer:
+	docker exec ${WEB_CONTAINER_NAME} composer ${CMD}
+
 composer-install:
 	docker exec ${WEB_CONTAINER_NAME} composer install
 
@@ -13,4 +16,4 @@ up:
 	docker-compose up --build -d
 
 wp-cli:
-	docker exec -it ${WEB_CONTAINER_NAME} vendor/bin/./wp --allow-root --path=wp --skip-plugins ${CMD}
+	docker exec -it ${WEB_CONTAINER_NAME} vendor/bin/./wp --allow-root ${CMD}

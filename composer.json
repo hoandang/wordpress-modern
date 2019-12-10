@@ -24,12 +24,14 @@
   "require": {
     "php": ">=7",
     "wordpress": "5.3",
-    "fancyguy/webroot-installer": "*@stable",
+    "wpackagist-plugin/advanced-custom-fields": "*@stable",
     "vlucas/phpdotenv": "*@stable",
     "wpackagist-plugin/custom-post-type-ui": "*@stable",
     "wpackagist-plugin/timber-library": "*@stable",
-    "wpackagist-plugin/advanced-custom-fields": "*@stable",
-    "roots/wp-password-bcrypt": "*@stable",
+    "roots/wp-password-bcrypt": "*@stable"
+  },
+  "require-dev": {
+    "wp-cli/wp-cli-bundle": "*@stable",
     "wp-cli/wp-cli": "*@stable",
     "larapack/dd": "*@stable"
   },
