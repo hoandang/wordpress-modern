@@ -27,7 +27,7 @@
     "shelljs": "^0.7.7",
     "vinyl-buffer": "^1.0.1",
     "vinyl-source-stream": "^1.1.2",
-    "vue": "^2.5.17",
+    "vue": "^2.6.11",
     "vueify": "^9.4.1",
     "yargs": "^7.1.0"
   }
