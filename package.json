@@ -23,7 +23,7 @@
     "gulp-plumber": "^1.2.0",
     "gulp-sass": "^3.2.1",
     "gulp-uglify": "^2.1.2",
-    "node-notifier": "^4.6.1",
+    "node-notifier": "^8.0.1",
     "shelljs": "^0.7.7",
     "vinyl-buffer": "^1.0.1",
     "vinyl-source-stream": "^1.1.2",
